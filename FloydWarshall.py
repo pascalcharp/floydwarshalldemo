@@ -11,7 +11,7 @@ class MoteurFloydWarshall:
         self.construireMatriceValuation()
         self.construireMatricePredecesseurs()
 
-        self.printReport("Initial")
+        self.printReport("Initial", [])
 
     def construireMatriceValuation(self):
         for i in range(self.cardinal):
@@ -31,32 +31,38 @@ class MoteurFloydWarshall:
                 else:
                     self.predecesseurs[i].append(None)
 
-    def printMatrice(self, matrice):
+    def printMatrice(self, matrice, updated):
         for i in range(self.cardinal):
             for j in range(self.cardinal):
+                if (i, j) in updated:
+                    prefix = "\033[92m"
+                else:
+                    prefix = ""
                 if matrice[i][j] is None:
                     print("-      ", end="")
                 else:
-                    print(f"{matrice[i][j]:<-7}", end="")
+                    print(f"{prefix}{matrice[i][j]:<-7}\033[0m", end="")
             print("")
 
-    def printReport(self, k):
+    def printReport(self, k, updated):
         print(f"Floyd-Warshall, sommet intermédiaire = {k}")
         print(f"Matrice de valuation: ")
-        self.printMatrice(self.valuation)
+        self.printMatrice(self.valuation, updated)
         print(f"Matrice des prédécesseurs:")
-        self.printMatrice(self.predecesseurs)
+        self.printMatrice(self.predecesseurs, updated)
         print("\n\n\n")
 
     def floydWarshall(self):
         for k in range(self.cardinal):
+            updated = []
             for i in range(self.cardinal):
                 for j in range(self.cardinal):
                     temp = self.valuation[i][k] + self.valuation[k][j]
                     if temp < self.valuation[i][j]:
+                        updated.append((i, j))
                         self.valuation[i][j] = temp
                         self.predecesseurs[i][j] = k
-            self.printReport(k)
+            self.printReport(k, updated)
 
 if __name__ == "__main__":
     monGraphe = Graphe(4)
