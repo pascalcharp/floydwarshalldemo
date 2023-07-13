@@ -1,7 +1,10 @@
 from Graphe import Graphe
 
 class MoteurFloydWarshall:
+    """Classe servant à appliquer l'algorithme de Floyd-Warshall sur un graphe"""
+
     def __init__(self, graphe):
+        """L'objet doit d'abord être construit en lui passant le graphe à analyser."""
         self.graphe = graphe
         self.cardinal = graphe.getCardinal()
 
@@ -53,6 +56,8 @@ class MoteurFloydWarshall:
         print("\n\n\n")
 
     def floydWarshall(self):
+        """Une fois construit, permet d'exécuter l'algorithme, en affichant à chaque itération l'état
+        des matrices de valuation et des prédécesseurs."""
         for k in range(self.cardinal):
             updated = []
             for i in range(self.cardinal):
@@ -65,6 +70,10 @@ class MoteurFloydWarshall:
             self.printReport(k, updated)
 
 if __name__ == "__main__":
+
+    # Exemple d'exécution tiré des notes de cours
+
+    # Étape 1: construire un graphe
     monGraphe = Graphe(4)
     monGraphe.ajouterArete(0, 1, 1.0)
     monGraphe.ajouterArete(0, 3, 8.0)
@@ -75,6 +84,9 @@ if __name__ == "__main__":
     monGraphe.ajouterArete(3, 0, 0.0)
 
 
+    # Étape 2: construire le moteur Floyd-Warshall avec le graphe
     solver = MoteurFloydWarshall(monGraphe)
+
+    # Étape 3: exécuter l'algorithme
     solver.floydWarshall()
 
